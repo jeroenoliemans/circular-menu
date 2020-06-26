@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web component test</title>
-    <script src="x-counter.js"></script>
     <script src="circular-menu.js"></script>
 </head>
 <template id="circular-menu-styles">
@@ -12,17 +11,25 @@
         button {
             background-color: pink;
         }
+
+        .menu__items {
+            display: none;
+        }
+
+        .menu-is-active {
+            display: block;
+        }
     </style>
 </template>
 <body>
-    <circular-menu>
+    <circular-menu data-placement="left">
         <li>menu item 1</li>
         <li>menu item 2</li>
         <li>menu item 3</li>
     </circular-menu>
 
 
-    <circular-menu>
+    <circular-menu data-placement="right">
         <li>another menu item 1</li>
         <li>another menu item 2</li>
         <li>another menu item 3</li>
