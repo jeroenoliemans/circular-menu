@@ -4,13 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web component test</title>
-    <script src="circular-menu.js"></script>
+    <style>
+        html, body {
+            background-color: palegoldenrod;
+            color: #333;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 <template id="circular-menu-styles">
     <style>
-        button {
-            background-color: pink;
+        .menu__toggle {
+            background-color: coral;
+            border: none;
+            padding: 2rem 1rem;
+            position: fixed;
+            top: 30vh;
+            
         }
+            .menu__toggle:focus {
+                outline: 0;
+                background-color: tomato;
+            }
+
+            .menu__toggle-left {
+                border-radius: 0 50% 50% 0;
+                left: -0.5rem;
+            }
+
+            .menu__toggle-right {
+                border-radius: 50% 0 0 50%;
+                right: -0.5px;
+            }
 
         .menu__items {
             display: none;
@@ -36,5 +62,7 @@
         <li>another menu item 4</li>
         <li>another menu item 5</li>
     </circular-menu>
+    <!-- place script at the bottom otherwise elements are not ready in connectedCallback -->
+    <script src="circular-menu.js"></script>
 </body>
 </html>

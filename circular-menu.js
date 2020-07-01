@@ -7,6 +7,10 @@ class CircularMenu extends HTMLElement {
 
         const styleTemplate = document.querySelector('#circular-menu-styles');
         this.styleContent = document.importNode(styleTemplate.content, true);
+        
+        this.defaults = {
+             placement: 'left'
+        }
 
         // elements
         this.menuToggle = null;
@@ -15,12 +19,19 @@ class CircularMenu extends HTMLElement {
 
     // element is added to the dom
     connectedCallback() {
-        this.shadow.innerHTML = `<button id="menuToggle" class="menu__toggle" value="menu">menu</button><nav id="menuContainer" class="menu__items"><slot></slot></nav>`;
+        const placement = this.dataset.placement ? this.dataset.placement : this.defaults.placement;
+
+        this.shadow.innerHTML = `<button id="menuToggle" aria-expanded="false" class="menu__toggle menu__toggle-${placement}" value="menu">&#9776;</button><nav id="menuContainer" class="menu__items"><slot></slot></nav>`;
         this.shadow.appendChild(this.styleContent);
         this.createView(); 
     }
 
     createView() {
+        var menuItems = Array.prototype.slice.call( this.children )
+        menuItems.forEach((menuItem) => {
+            console.log(menuItem);
+        });
+
         this.menuContainer = this.shadow.getElementById('menuContainer');
         this.createMenuButton();
     }
