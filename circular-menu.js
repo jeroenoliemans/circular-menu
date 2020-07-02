@@ -12,6 +12,10 @@ class CircularMenu extends HTMLElement {
              placement: 'left'
         }
 
+        this.options = {
+            placement: this.dataset.placement ? this.dataset.placement : this.defaults.placement
+        }
+
         // elements
         this.menuToggle = null;
         this.menuContainer = null;
@@ -19,17 +23,36 @@ class CircularMenu extends HTMLElement {
 
     // element is added to the dom
     connectedCallback() {
-        const placement = this.dataset.placement ? this.dataset.placement : this.defaults.placement;
-
-        this.shadow.innerHTML = `<button id="menuToggle" aria-expanded="false" class="menu__toggle menu__toggle-${placement}" value="menu">&#9776;</button><nav id="menuContainer" class="menu__items"><slot></slot></nav>`;
+        this.shadow.innerHTML = `
+            <button id="menuToggle" aria-expanded="false" class="menu__toggle menu__toggle-${this.options.placement}" value="menu">&#9776;</button>
+            <nav id="menuContainer" class="menu__items">
+                <slot></slot>
+            </nav>`;
         this.shadow.appendChild(this.styleContent);
+
         this.createView(); 
     }
 
     createView() {
         var menuItems = Array.prototype.slice.call( this.children )
-        menuItems.forEach((menuItem) => {
-            console.log(menuItem);
+        menuItems.forEach((menuItem, index) => {
+            menuItem.classList.add('menu__item');
+            menuItem.setAttribute('part','menuitem');
+            menuItem.style.position = 'absolute';
+            menuItem.style.padding = '1rem';
+            menuItem.style.listStyle = 'none';
+            menuItem.style.height = '4rem';
+            menuItem.style.width = '4rem';
+            menuItem.style.display = 'flex';
+            menuItem.style.alignItems = 'center';
+            menuItem.style.textAlign = 'center';
+            menuItem.style.borderRadius = '50%';
+            menuItem.style.color = 'white';
+            menuItem.style.backgroundColor = 'tomato';
+
+            menuItem.style[this.options.placement] = `20px`;
+            menuItem.style.top = `${index * 60}px`;
+
         });
 
         this.menuContainer = this.shadow.getElementById('menuContainer');

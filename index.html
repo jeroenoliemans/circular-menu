@@ -10,6 +10,7 @@
             color: #333;
             padding: 0;
             margin: 0;
+            font-family: sans-serif;
         }
     </style>
 </head>
@@ -21,11 +22,13 @@
             padding: 2rem 1rem;
             position: fixed;
             top: 30vh;
-            
+            transition: transform 0.2s;
         }
-            .menu__toggle:focus {
+            .menu__toggle:focus, .menu__toggle:hover {
                 outline: 0;
                 background-color: tomato;
+                cursor: pointer;
+                transform: scaleX(1.2);
             }
 
             .menu__toggle-left {
@@ -44,6 +47,11 @@
 
         .menu-is-active {
             display: block;
+        }
+
+        .menu__item {
+            position: absolute;
+            left: 10px;
         }
     </style>
 </template>
