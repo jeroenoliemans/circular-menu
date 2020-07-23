@@ -34,7 +34,11 @@ class CircularMenu extends HTMLElement {
     }
 
     createView() {
-        var menuItems = Array.prototype.slice.call( this.children )
+        const menuItems = Array.prototype.slice.call( this.children );
+
+        let angle = ((180 / (menuItems.length -1)) * (Math.PI/180));
+        const radius = 40 * menuItems.length;
+
         menuItems.forEach((menuItem, index) => {
             menuItem.classList.add('menu__item');
             menuItem.setAttribute('part','menuitem');
@@ -50,8 +54,13 @@ class CircularMenu extends HTMLElement {
             menuItem.style.color = 'white';
             menuItem.style.backgroundColor = 'tomato';
 
-            menuItem.style[this.options.placement] = `20px`;
-            menuItem.style.top = `${index * 60}px`;
+            // menuItem.style[this.options.placement] = `20px`;
+            // menuItem.style.top = `${index * 60}px`;
+
+            let correction = this.options.placement === 'left' ? -90* (Math.PI/180) : -90 * (Math.PI/180);
+
+            menuItem.style[this.options.placement] = `${radius * Math.cos((index * angle) + correction)}px`;
+            menuItem.style.top = `${radius * Math.sin((index * angle)  + correction) + radius}px`;
 
         });
 
