@@ -21,7 +21,7 @@
             border: none;
             padding: 2rem 1rem;
             position: fixed;
-            top: 30vh;
+            top: 200px;
             transition: transform 0.2s;
         }
             .menu__toggle:focus, .menu__toggle:hover {
@@ -38,7 +38,7 @@
 
             .menu__toggle-right {
                 border-radius: 50% 0 0 50%;
-                right: -0.5px;
+                right: -0.5rem;
             }
 
         .menu__items {
@@ -48,11 +48,6 @@
         .menu-is-active {
             display: block;
         }
-
-        .menu__item {
-            position: absolute;
-            left: 10px;
-        }
     </style>
 </template>
 <body>
@@ -60,6 +55,7 @@
         <li>menu item 1</li>
         <li>menu item 2</li>
         <li>menu item 3</li>
+        <li>another menu item 4</li>
     </circular-menu>
 
 

@@ -34,19 +34,28 @@ class CircularMenu extends HTMLElement {
     }
 
     createView() {
+        this.menuContainer = this.shadow.getElementById('menuContainer');
+        this.menuContainer.style.position = 'fixed';
+        this.menuContainer.style.top = '200px';
+
         const menuItems = Array.prototype.slice.call( this.children );
 
         let angle = ((180 / (menuItems.length -1)) * (Math.PI/180));
-        const radius = 40 * menuItems.length;
+        const radius = 30 * menuItems.length;
+        let correction = this.options.placement === 'left' ? -90* (Math.PI/180) : -90 * (Math.PI/180);
+
+        let yOffset;
+        let yOffsetLast;
+    
 
         menuItems.forEach((menuItem, index) => {
             menuItem.classList.add('menu__item');
             menuItem.setAttribute('part','menuitem');
             menuItem.style.position = 'absolute';
-            menuItem.style.padding = '1rem';
+            menuItem.style.padding = '10px';
             menuItem.style.listStyle = 'none';
-            menuItem.style.height = '4rem';
-            menuItem.style.width = '4rem';
+            menuItem.style.height = '60px';
+            menuItem.style.width = '60px';
             menuItem.style.display = 'flex';
             menuItem.style.alignItems = 'center';
             menuItem.style.textAlign = 'center';
@@ -54,17 +63,14 @@ class CircularMenu extends HTMLElement {
             menuItem.style.color = 'white';
             menuItem.style.backgroundColor = 'tomato';
 
-            // menuItem.style[this.options.placement] = `20px`;
-            // menuItem.style.top = `${index * 60}px`;
-
-            let correction = this.options.placement === 'left' ? -90* (Math.PI/180) : -90 * (Math.PI/180);
-
-            menuItem.style[this.options.placement] = `${radius * Math.cos((index * angle) + correction)}px`;
-            menuItem.style.top = `${radius * Math.sin((index * angle)  + correction) + radius}px`;
+            let xPos = this.options.placement === 'left' ? 
+                radius * Math.cos((index * angle) + correction) 
+                : ((radius * Math.cos((index * angle) + correction)) * -1) + window.innerWidth - 80; 
+            let yPos = radius * Math.sin((index * angle)  + correction);
+            menuItem.style.transform = `translate(${xPos}px, ${yPos}px)`;
 
         });
 
-        this.menuContainer = this.shadow.getElementById('menuContainer');
         this.createMenuButton();
     }
 
