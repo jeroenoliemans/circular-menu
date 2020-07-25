@@ -4,6 +4,8 @@ class CircularMenu extends HTMLElement {
         
         this.shadow =  this.attachShadow( { mode: 'open' } );
         this.activeClass = 'menu-is-active';
+        this.circularMenuCloseEventName = "close.all.menus";
+        this.circularMenuCloseEvent;
 
         const styleTemplate = document.querySelector('#circular-menu-styles');
         this.styleContent = document.importNode(styleTemplate.content, true);
@@ -30,6 +32,18 @@ class CircularMenu extends HTMLElement {
             </nav>`;
         this.shadow.appendChild(this.styleContent);
 
+        // add id 
+        this.id = this.guid();
+
+        // create custom close event
+        this.circularMenuCloseEvent = new CustomEvent(this.circularMenuCloseEventName, {
+            detail: {
+                id: this.id
+            }
+        });
+
+        this.addEventListener(this.circularMenuCloseEventName, this.closeMenu);
+
         this.createView(); 
     }
 
@@ -43,10 +57,6 @@ class CircularMenu extends HTMLElement {
         let angle = ((180 / (menuItems.length -1)) * (Math.PI/180));
         const radius = 30 * menuItems.length;
         let correction = this.options.placement === 'left' ? -90* (Math.PI/180) : -90 * (Math.PI/180);
-
-        let yOffset;
-        let yOffsetLast;
-    
 
         menuItems.forEach((menuItem, index) => {
             menuItem.classList.add('menu__item');
@@ -68,7 +78,6 @@ class CircularMenu extends HTMLElement {
                 : ((radius * Math.cos((index * angle) + correction)) * -1) + window.innerWidth - 80; 
             let yPos = radius * Math.sin((index * angle)  + correction);
             menuItem.style.transform = `translate(${xPos}px, ${yPos}px)`;
-
         });
 
         this.createMenuButton();
@@ -78,12 +87,27 @@ class CircularMenu extends HTMLElement {
         this.menuToggle = this.shadow.getElementById('menuToggle');
 
         this.menuToggle.addEventListener('click', (event) => {
+            this.dispatchEvent(this.circularMenuCloseEvent);
+
             this.toggleMenu(event);
         });
     }
 
     toggleMenu(event) {
         this.menuContainer.classList.toggle(this.activeClass);
+    }
+
+    closeMenu(event) {
+        console.log(this.id,event.detail.id)
+
+        if (this.id !== event.detail.id) {
+            this.menuContainer.classList.remove(this.activeClass);
+        }
+    }
+
+    guid() {
+        const s4=()=> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);     
+        return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
     }
 }
 
