@@ -47,17 +47,6 @@ class CircularMenu extends HTMLElement {
         menuItems.forEach((menuItem, index) => {
             menuItem.classList.add('menu__item');
             menuItem.setAttribute('part','menuitem');
-            menuItem.style.position = 'absolute';
-            menuItem.style.padding = '10px';
-            menuItem.style.listStyle = 'none';
-            menuItem.style.height = '60px';
-            menuItem.style.width = '60px';
-            menuItem.style.display = 'flex';
-            menuItem.style.alignItems = 'center';
-            menuItem.style.textAlign = 'center';
-            menuItem.style.borderRadius = '50%';
-            menuItem.style.color = 'white';
-            menuItem.style.backgroundColor = 'tomato';
 
             let xPos = this.options.placement === 'left' ? 
                 radius * Math.cos((index * angle) + correction) 
@@ -78,14 +67,16 @@ class CircularMenu extends HTMLElement {
     }
 
     toggleMenu(event) {
-        this.menuContainer.classList.toggle(this.activeClass);
+        this.menuContainer.classList.contains(this.activeClass) ? this.closeMenu() : this.openMenu();
     }
 
     openMenu() {
+        this.menuContainer.style.display = 'block';
         this.menuContainer.classList.add(this.activeClass);
     }
 
     closeMenu() {
+        this.menuContainer.style.display = 'none';
         this.menuContainer.classList.remove(this.activeClass);
     }
 }
