@@ -42,11 +42,16 @@
             }
 
         .menu__items {
-            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .menu-is-active {
-            display: block;
+            opacity: 1;
+        }
+
+        circular-menu::part(menuitem) {
+            --background-color: #1E88E5;
         }
     </style>
 </template>
