@@ -4,8 +4,6 @@ class CircularMenu extends HTMLElement {
         
         this.shadow =  this.attachShadow( { mode: 'open' } );
         this.activeClass = 'menu-is-active';
-        this.circularMenuCloseEventName = "close.all.menus";
-        this.circularMenuCloseEvent;
 
         const styleTemplate = document.querySelector('#circular-menu-styles');
         this.styleContent = document.importNode(styleTemplate.content, true);
@@ -31,18 +29,6 @@ class CircularMenu extends HTMLElement {
                 <slot></slot>
             </nav>`;
         this.shadow.appendChild(this.styleContent);
-
-        // add id 
-        this.id = this.guid();
-
-        // create custom close event
-        this.circularMenuCloseEvent = new CustomEvent(this.circularMenuCloseEventName, {
-            detail: {
-                id: this.id
-            }
-        });
-
-        this.addEventListener(this.circularMenuCloseEventName, this.closeMenu);
 
         this.createView(); 
     }
@@ -87,8 +73,6 @@ class CircularMenu extends HTMLElement {
         this.menuToggle = this.shadow.getElementById('menuToggle');
 
         this.menuToggle.addEventListener('click', (event) => {
-            this.dispatchEvent(this.circularMenuCloseEvent);
-
             this.toggleMenu(event);
         });
     }
@@ -97,17 +81,12 @@ class CircularMenu extends HTMLElement {
         this.menuContainer.classList.toggle(this.activeClass);
     }
 
-    closeMenu(event) {
-        console.log(this.id,event.detail.id)
-
-        if (this.id !== event.detail.id) {
-            this.menuContainer.classList.remove(this.activeClass);
-        }
+    openMenu() {
+        this.menuContainer.classList.add(this.activeClass);
     }
 
-    guid() {
-        const s4=()=> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);     
-        return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
+    closeMenu() {
+        this.menuContainer.classList.remove(this.activeClass);
     }
 }
 

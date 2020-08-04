@@ -68,5 +68,17 @@
     </circular-menu>
     <!-- place script at the bottom otherwise elements are not ready in connectedCallback -->
     <script src="circular-menu.js"></script>
+    <script>
+        var onload = function() {  
+            if (!window.HTMLImports) {
+            document.dispatchEvent(
+                new CustomEvent('WebComponentsReady', {bubbles: true}));
+            }
+        };
+
+        document.addEventListener( 'WebComponentsReady', () => {
+            document.querySelector('circular-menu').openMenu();
+        });
+    </script>
 </body>
 </html>
